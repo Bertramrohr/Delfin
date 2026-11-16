@@ -18,7 +18,7 @@ public class ActiveMember extends Member {
         // Over 60 år: 25% rabat af seniortaksten (1600 * 0.75 = 1200 kr.)
         if (age < 18) {
             return 1000.0;
-        } else if (age > 60) {
+        } else if (age >= 60) {
             return 1600.0 * 0.75; // 1200 kr.
         } else {
             return 1600.0;
