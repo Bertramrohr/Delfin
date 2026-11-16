@@ -113,125 +113,20 @@ void main() {
             }
 
         }
-        if (masterMenuChoice == 2) { //det er kunden der er bruger
+        if (masterMenuChoice == 2) { //det er kunden/medlem der er bruger
             //vis kundemenu
-            boolean customerMenuIsRunning = true;
-            while (customerMenuIsRunning) {
+            boolean memberMenuIsRunning = true;
+            while (memberMenuIsRunning) {
 
-                IO.println("Kundemenu");
+                IO.println("Velkommen medlem af Delfinen");
                 IO.println();
-                IO.println("1. Se filmprogram");
-                IO.println("2. Se filmprogram og bestil billetter");
-                IO.println("3. Tilbage");
+                IO.println("1. Se dine oplysninger");
+                IO.println("2. Se dine hold");
+                IO.println("3. Se dine resultater");
+                IO.println("4. Se dit medlemskab");
+                IO.println("0. Tilbage");
                 IO.println();
 
-                int customerMenuChoice = Integer.parseInt(IO.readln("Vælg et nummer fra menuen: "));
-                IO.println();
-                if (customerMenuChoice == 1) { //kunden vil se filmprogrammet
-                    //udskriv filmprogram
-                    IO.println("Filmprogram");
-                    for (int i = 1; i <= movieProgram.length; i++) {
-                        IO.println(i + ". " + movieProgram[i - 1]);
-                    }
-                    //vil brugeren tilbage?
-                    String back = IO.readln("Vil du tilbage til menuen? skriv 'j' for ja, eller enter for at komme tilbage til hovedmenuen");
-                    if (!back.equals("j")) {
-                        customerMenuIsRunning = false;
-                    }
-
-                }
-                if (customerMenuChoice == 2) { //kunden vil se filmprogram og booke billet
-                    //udskriv filmprogram
-                    IO.println("Filmprogram");
-                    for (int i = 1; i <= movieProgram.length; i++) {
-                        IO.println(i + ". " + movieProgram[i - 1]);
-                    }
-                    int movieChosen = Integer.parseInt(IO.readln("Hvilket nummer film vil du se: "));
-                    IO.println("Book et eller flere sæder: ");
-
-                    //udskriv sal
-                    IO.println();
-                    IO.println("---lærred---");
-                    IO.println();
-                    for (int i = 0; i < auditorium.length; i++) {
-                        for (int j = 0; j < auditorium[0].length; j++) {
-                            if (auditorium[i][j]) {
-                                IO.print("|X|");
-                            } else {
-                                IO.print("|_|");
-                            }
-                        }
-                        IO.println();
-                    }
-                    IO.println();
-                    IO.println();
-
-                    //kunden booker billet/billetter
-                    String bookedSeat = "Du har booked følgende sæder til "+ movieProgram[movieChosen-1];
-                    boolean bookingprocess = true;
-                    while (bookingprocess) {
-                        boolean novacantseatpicked = true;
-                        while (novacantseatpicked) {
-
-                            int rowChoice = Integer.parseInt(IO.readln("Vælg række: "));
-
-                            int seatChoice = Integer.parseInt(IO.readln("Vælg sæde: "));
-                            int rowIndex = rowChoice - 1;
-                            int seatIndex = seatChoice - 1;
-
-                            if (!(auditorium[rowIndex][seatIndex])) {
-                                //sædet er frit og kan bookes
-                                auditorium[rowIndex][seatIndex] = true;
-
-                                //udskriv sal
-                                IO.println();
-                                IO.println("---lærred---");
-                                IO.println();
-                                for (int i = 0; i < auditorium.length; i++) {
-                                    for (int j = 0; j < auditorium[0].length; j++) {
-                                        if (auditorium[i][j]) {
-                                            IO.print("|X|");
-                                        } else {
-                                            IO.print("|_|");
-                                        }
-                                    }
-                                    IO.println();
-                                }
-                                IO.println();
-                                IO.println();
-
-                                novacantseatpicked = false;
-                                bookedSeat += "\nrække " + rowChoice + ", sæde" + seatChoice;
-
-                            } else {
-                                IO.println("Sædet du forsøger at booke er allerede optaget, prøv igen.");
-                            }
-
-                        }
-                        String keepBooking = IO.readln("Vil du booke et sæde mere? Skriv j for ja, n for nej: ");
-                        if (keepBooking.equals("n")) {
-                            bookingprocess = false;
-                        }
-                    }
-                    IO.println(bookedSeat);
-
-
-                    //vil brugeren tilbage?
-                    String back = IO.readln("Vil du tilbage til menuen? skriv 'j' for ja, eller enter for at komme tilbage til hovedmenuen: ");
-                    if (!back.equals("j")) {
-                        customerMenuIsRunning = false;
-                    }
-                }
-                if (customerMenuChoice == 3) {//tilbage til hovedmenu
-                    customerMenuIsRunning = false;
-                }
-            }
-
-
-        }
-        if (masterMenuChoice == 3) {//programmet slutter
-            masterMenuIsRunning = false;
-        }
     }
 }
  */
