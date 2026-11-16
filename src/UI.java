@@ -14,7 +14,7 @@ public class UI {
             }
         }
 
-        IO.println("Tak fordi du brugte Svømmeklubben Delfinen!");
+        IO.println("Tak for at besøge Svømmeklubben Delfinen!");
     }
 
     // HOVEDMENU
@@ -111,12 +111,11 @@ public class UI {
 
         boolean running = true;
         while (running) {
-            IO.println("Velkommen medlem af Delfinen");
+            IO.println("Velkommen medlem af Delfinen, søg med dit medlemsnummer");
             IO.println();
-            IO.println("1. Se dine oplysninger");
-            IO.println("2. Se dine hold");
-            IO.println("3. Se dine resultater");
-            IO.println("4. Se dit medlemskab");
+            IO.println("1. Søg i medlemmer");
+            IO.println("2. Søg i hold");
+            IO.println("3. Søg i resultater");
             IO.println("0. Tilbage");
             IO.println();
 
@@ -125,7 +124,6 @@ public class UI {
                 case 1 -> membership();
                 case 2 -> information();
                 case 3 -> results();
-                case 4 -> membership();
                 case 0 -> running = false;
 
                 default -> IO.println("Ugyldigt valg.");
@@ -150,3 +148,4 @@ public class UI {
     private void membership() {// Her vises eget medlemskab, info og status.
     }
 }
+
