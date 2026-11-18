@@ -2,7 +2,13 @@
 public class UI {
 
     public void run() {
+    private final Club club;
 
+    public UI(Club club) {
+        this.club = club;
+    }
+
+    public void run() {
         boolean running = true;
         while (running) {
             showMenu();
@@ -17,7 +23,6 @@ public class UI {
                 default -> IO.println("Ugyldigt valg, indtast gyldigt tal.");
             }
         }
-
         IO.println("Tak for at besøge Svømmeklubben Delfinen!");
     }
 
@@ -41,14 +46,12 @@ public class UI {
             IO.println();
             IO.println("1. Medlemskab");
             IO.println("0. Tilbage");
-            IO.println();
 
             int choice = readInt("Vælg et nummer fra menuen: ");
 
             switch (choice) {
                 case 1 -> chairmanMembership();
                 case 0 -> running = false;
-
                 default -> IO.println("Ugyldigt valg.");
             }
         }
@@ -64,20 +67,14 @@ public class UI {
             IO.println("2. Opret medlem");
             IO.println("3. Ændre medlemskab");
             IO.println("0. Tilbage");
-            IO.println();
 
             int choice = readInt("Vælg et nummer: ");
 
             switch (choice) {
                 case 1 -> allMemberInfo();
-                case 2 -> {
-                    // Opret medlem
-                }
-                case 3 -> {
-                    // Ændre medlemskab
-                }
+                case 2 -> createMember();
+                case 3 -> IO.println("Funktion til at ændre medlemskab kommer snart.");
                 case 0 -> running = false;
-
                 default -> IO.println("Ugyldigt valg.");
             }
         }
@@ -117,24 +114,19 @@ public class UI {
 
         boolean running = true;
         while (running) {
-            IO.println("Data og information");
-            IO.println();
+            IO.println("\n--- Data og information ---");
             IO.println("1. Hold og træning");
             IO.println("2. Kontaktinformation");
             IO.println("3. Resultater");
             IO.println("0. Tilbage");
-            IO.println();
 
             int choice = readInt("Vælg et nummer: ");
 
             switch (choice) {
                 case 1 -> information();
-                case 2 -> {
-                    // Kontaktinformation
-                }
+                case 2 -> allMemberInfo(); // Genbruger evt. til kontaktinfo
                 case 3 -> results();
                 case 0 -> running = false;
-
                 default -> IO.println("Ugyldigt valg.");
             }
         }
@@ -145,22 +137,18 @@ public class UI {
 
         boolean running = true;
         while (running) {
-            IO.println("Velkommen medlem af Delfinen, søg med dit medlemsnummer");
-            IO.println();
-            IO.println("1. Søg i medlemmer");
-            IO.println("2. Søg i hold");
-            IO.println("3. Søg i resultater");
+            IO.println("\n--- Medlemsmenu ---");
+            IO.println("1. Søg i medlemmer (via medlemsnummer)");
+            IO.println("2. Se hold");
+            IO.println("3. Se resultater");
             IO.println("0. Tilbage");
-            IO.println();
 
             int choice = readInt("Vælg et nummer: ");
-
             switch (choice) {
-                case 1 -> membership();
+                case 1 -> searchMemberById();
                 case 2 -> information();
                 case 3 -> results();
                 case 0 -> running = false;
-
                 default -> IO.println("Ugyldigt valg.");
             }
         }
@@ -171,9 +159,25 @@ public class UI {
         // Her vises alle medlemmers info og status.
     }
 
-    // VIS INFORMATION OM HOLD OG TRÆNING
-    private void information() {
-        // Information om hold, træning og kontakt.
+    // OPRET NYT MEDLEM (Eksempel)
+    private void createMember() {
+        IO.println("\n--- Opret nyt medlem ---");
+        String name = IO.readln("Indtast navn: ");
+        int id = readInt("Indtast medlemsnummer: ");
+        // Her kan man udbygge med indtastning af fødselsdato, adresse osv.
+        IO.println("Medlem oprettet (eksempel).");
+    }
+
+    // SØG MEDLEM EFTER ID (Til kundemenuen)
+    private void searchMemberById() {
+        int id = readInt("Indtast medlemsnummer der søges efter: ");
+        Member m = club.findMemberById(id);
+        if (m != null) {
+            IO.println("\nMedlem fundet:");
+            IO.println(m.toString());
+        } else {
+            IO.println("Fandt intet medlem med medlemsnummer: " + id);
+        }
     }
 
     // VIS RESULTATER
