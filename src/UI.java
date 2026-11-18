@@ -1,4 +1,7 @@
+
 public class UI {
+
+    public void run() {
     private final Club club;
 
     public UI(Club club) {
@@ -10,10 +13,13 @@ public class UI {
         while (running) {
             showMenu();
             int choice = readInt("Vælg et nummer fra hovedmenuen: ");
+
             switch (choice) {
-                case 1 -> adminMenu();
-                case 2 -> memberMenu();
-                case 3 -> running = false;
+                case 1 -> chairmanMenu();
+                case 2 -> cashierMenu();
+                case 3 -> trainerMenu();
+                case 4 -> running = false;
+
                 default -> IO.println("Ugyldigt valg, indtast gyldigt tal.");
             }
         }
@@ -22,42 +28,48 @@ public class UI {
 
     // HOVEDMENU
     private void showMenu() {
-        IO.println("\n=== Velkommen til Svømmeklubben Delfinen ===");
-        IO.println("1. Administrator");
-        IO.println("2. Kunde / Medlem");
-        IO.println("3. Slut programmet");
+        IO.println("Velkommen til Svømmeklubben Delfinen");
+        IO.println();
+        IO.println("1. Formand");
+        IO.println("2. Kasserer");
+        IO.println("3. Træner");
+        IO.println("4. Slut programmet");
+        IO.println();
     }
 
     // ADMINISTRATORMENU
-    private void adminMenu() {
+    private void chairmanMenu() {
+
         boolean running = true;
         while (running) {
-            IO.println("\n--- Administrator-menu ---");
+            IO.println("Menu for formand");
+            IO.println();
             IO.println("1. Medlemskab");
-            IO.println("2. Data og information");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer fra menuen: ");
+
             switch (choice) {
-                case 1 -> adminMembership();
-                case 2 -> adminInformation();
+                case 1 -> chairmanMembership();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
         }
     }
 
-    // ADMINISTRATOR: MEDLEMSKAB
-    private void adminMembership() {
+    private void chairmanMembership() {
+
         boolean running = true;
         while (running) {
-            IO.println("\n--- Medlemskab - Administrator ---");
+            IO.println("Medlemskabsmenu");
+            IO.println();
             IO.println("1. Se alle medlemmer");
             IO.println("2. Opret medlem");
             IO.println("3. Ændre medlemskab");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
+
             switch (choice) {
                 case 1 -> allMemberInfo();
                 case 2 -> createMember();
@@ -68,8 +80,38 @@ public class UI {
         }
     }
 
+    private void cashierMenu() {
+
+        boolean running = true;
+        while (running) {
+            IO.println("Menu for kasserer");
+            IO.println();
+            IO.println("1. Medlemskab");
+            IO.println("2. Medlemmer i restance");
+            IO.println("3. Data og information");
+            IO.println("0. Tilbage");
+            IO.println();
+
+            int choice = readInt("Vælg et nummer fra menuen: ");
+
+            switch (choice) {
+                case 1 -> {
+                    // Kunne finde medlemmet kontingent og info
+                }
+                case 2 -> {
+                    // Kunne finde liste over medlemmer i restance
+                }
+                case 3 -> memberInformation();
+                case 0 -> running = false;
+
+                default -> IO.println("Ugyldigt valg.");
+            }
+        }
+    }
+
     // ADMINISTRATOR: DATA OG INFORMATION
-    private void adminInformation() {
+    private void memberInformation() {
+
         boolean running = true;
         while (running) {
             IO.println("\n--- Data og information ---");
@@ -79,6 +121,7 @@ public class UI {
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
+
             switch (choice) {
                 case 1 -> information();
                 case 2 -> allMemberInfo(); // Genbruger evt. til kontaktinfo
@@ -90,7 +133,8 @@ public class UI {
     }
 
     // KUNDE / MEDLEMSMENU
-    private void memberMenu() {
+    private void trainerMenu() {
+
         boolean running = true;
         while (running) {
             IO.println("\n--- Medlemsmenu ---");
@@ -110,16 +154,9 @@ public class UI {
         }
     }
 
-    // VIS ALLE MEDLEMMER
+    // VIS ALLE MEDLEMMERS INFORMATION
     private void allMemberInfo() {
-        IO.println("\n--- OVERSIGT OVER MEDLEMMER ---");
-        if (club.getMembers().isEmpty()) {
-            IO.println("Ingen medlemmer registreret.");
-            return;
-        }
-        for (Member m : club.getMembers()) {
-            IO.println(m.toString());
-        }
+        // Her vises alle medlemmers info og status.
     }
 
     // OPRET NYT MEDLEM (Eksempel)
@@ -143,22 +180,26 @@ public class UI {
         }
     }
 
-    private void information() {
-        IO.println("\n[Information om hold og træning vises her]");
-    }
-
+    // VIS RESULTATER
     private void results() {
-        IO.println("\n[Resultater og stævner vises her]");
+        // Her kan man vælge stævner eller træningsresultater.
     }
 
-    // ROBUST HJÆLPEMETODE TIL AT LÆSE TAL
+    // VIS EGET MEDLEMSKAB OG INFORMATION
+    private void membership() {
+        // Her vises eget medlemskab, info og status.
+    }
+
+    // LÆS ET HELTAL FRA BRUGEREN
     private int readInt(String prompt) {
+
         while (true) {
             try {
-                String input = IO.readln(prompt);
-                return Integer.parseInt(input.trim());
+                String input = IO.readln(prompt).trim();
+                return Integer.parseInt(input);
+
             } catch (NumberFormatException e) {
-                IO.println("Ugyldigt input! Indtast venligst et heltal.");
+                IO.println("Ugyldig indtastning. Indtast et helt tal.");
             }
         }
     }
