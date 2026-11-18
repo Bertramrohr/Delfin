@@ -1,14 +1,15 @@
 
 public class UI {
 
-    public void run() {
     private final Club club;
 
     public UI(Club club) {
         this.club = club;
     }
 
+
     public void run() {
+
         boolean running = true;
         while (running) {
             showMenu();
@@ -137,15 +138,15 @@ public class UI {
 
         boolean running = true;
         while (running) {
-            IO.println("\n--- Medlemsmenu ---");
+            IO.println("Menu for træner");
             IO.println("1. Søg i medlemmer (via medlemsnummer)");
-            IO.println("2. Se hold");
-            IO.println("3. Se resultater");
+            IO.println("2. Søg i hold");
+            IO.println("3. Søg i resultater");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
             switch (choice) {
-                case 1 -> searchMemberById();
+                case 1 -> membership();
                 case 2 -> information();
                 case 3 -> results();
                 case 0 -> running = false;
@@ -203,4 +204,8 @@ public class UI {
             }
         }
     }
+
+    private void information() {
+    }
+
 }
