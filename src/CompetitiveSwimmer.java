@@ -8,8 +8,8 @@ public class CompetitiveSwimmer extends ActiveMember {
     private List<String> disciplines;
 
     public CompetitiveSwimmer(String name, int memberID, LocalDate birthday, String address,
-                              String phoneNumber, String email, LocalDate signUpDate, String team) {
-        super(name, memberID, birthday, address, phoneNumber, email, signUpDate);
+                              String phoneNumber, String email, LocalDate signUpDate, String team, String membershipType) {
+        super(name, memberID, birthday, address, phoneNumber, email, signUpDate, membershipType);
         this.team = team;
         this.disciplines = new ArrayList<>();
     }
