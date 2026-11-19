@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class UI {
 
@@ -8,7 +11,7 @@ public class UI {
     }
 
 
-    public void run() {
+    public void run() throws IOException {
 
         boolean running = true;
         while (running) {
@@ -39,7 +42,7 @@ public class UI {
     }
 
     // ADMINISTRATORMENU
-    private void chairmanMenu() {
+    private void chairmanMenu() throws IOException {
 
         boolean running = true;
         while (running) {
@@ -58,7 +61,7 @@ public class UI {
         }
     }
 
-    private void chairmanMembership() {
+    private void chairmanMembership() throws IOException {
 
         boolean running = true;
         while (running) {
@@ -81,7 +84,7 @@ public class UI {
         }
     }
 
-    private void cashierMenu() {
+    private void cashierMenu() throws IOException {
 
         boolean running = true;
         while (running) {
@@ -111,7 +114,7 @@ public class UI {
     }
 
     // ADMINISTRATOR: DATA OG INFORMATION
-    private void memberInformation() {
+    private void memberInformation() throws IOException {
 
         boolean running = true;
         while (running) {
@@ -146,7 +149,7 @@ public class UI {
 
             int choice = readInt("Vælg et nummer: ");
             switch (choice) {
-                case 1 -> membership();
+                case 1 -> searchMemberById();
                 case 2 -> information();
                 case 3 -> results();
                 case 0 -> running = false;
@@ -156,8 +159,13 @@ public class UI {
     }
 
     // VIS ALLE MEDLEMMERS INFORMATION
-    private void allMemberInfo() {
-        // Her vises alle medlemmers info og status.
+    private void allMemberInfo() throws IOException {
+        // Her vises alle medlemmers info og status.'
+        FileLoader loader = new FileLoader();
+        List<Member> loadMembers = loader.loadMembers("memberInfo.csv");
+            for (Member member : loadMembers) {
+                IO.println(member.getName() + " " + member.getPhoneNumber() + " " + member.getMemberID());
+            }
     }
 
     // OPRET NYT MEDLEM (Eksempel)

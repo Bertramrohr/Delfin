@@ -1,6 +1,7 @@
 import java.time.LocalDate;
+import java.time.Period;
 
-public class Member {
+public abstract class Member {
     final String name;
     final int memberID;
     final LocalDate birthday;
@@ -8,10 +9,11 @@ public class Member {
     final String phoneNumber;
     final String email;
     final LocalDate signUpDate;
+    final String membershipType;
 
 
     public Member(String name, int memberID, LocalDate birthday, String adress,
-                  String phoneNumber, String email, LocalDate signUpDate) {
+                  String phoneNumber, String email, LocalDate signUpDate, String membershipType) {
 
         this.name = name;
         this.memberID = memberID;
@@ -20,6 +22,7 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.signUpDate = signUpDate;
+        this.membershipType = membershipType;
     }
 
     // Getters
@@ -62,9 +65,16 @@ public class Member {
                 Tlf: %s
                 Email: %s
                 Oprettelses Dato: %s
+                Status: %s
                 
-                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate);
+                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, membershipType);
     }
+
+
+    public abstract double calculateFee(LocalDate date);
+
+    public abstract String getMembershipType();
+
 
 
 }
