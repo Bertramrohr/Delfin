@@ -7,8 +7,13 @@ public class PassiveMember extends Member {
         super(name, memberID, birthday, address, phoneNumber, email, signUpDate);
     }
 
+    @Override
     public double calculateFee(LocalDate date) {
-        // Kontingent for passivt medlemskab er 500 kr. årligt
         return 500.0;
+    }
+
+    @Override
+    public String getMembershipType() {
+        return "PASSIVE";
     }
 }

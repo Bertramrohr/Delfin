@@ -19,6 +19,7 @@ public class FileSaver {
                         + member.getPhoneNumber() + delimiter
                         + member.getEmail() + delimiter
                         + member.getSignUpDate());
+                        + member.getMembershipType());
                 writer.newLine();
             }
         }
