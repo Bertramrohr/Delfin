@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,14 +8,12 @@ public class Club {
 
     public Club() {
         members = new ArrayList<>();
-        // Indsæt evt. lidt startdata (eksempeldata)
-        loadInitialData();
-    }
-
-    private void loadInitialData() {
-        members.add(new PassiveMember("Hans Jensen", 1, LocalDate.of(1985, 4, 12), "Strandvejen 14", "12345678", "hans@mail.com", LocalDate.of(2023, 1, 15)));
-        members.add(new ActiveMember("Anna Hansen", 2, LocalDate.of(2008, 9, 22), "Bygaden 5", "87654321", "anna@mail.com", LocalDate.of(2022, 5, 10)));
-        members.add(new CompetitiveSwimmer("Peter Nielsen", 3, LocalDate.of(2005, 11, 3), "Parkvej 8", "11223344", "peter@mail.com", LocalDate.of(2021, 8, 20), "Junior"));
+        FileLoader fileLoader = new FileLoader();
+        try {
+            members = fileLoader.loadMembers("memberInfo.csv");
+        } catch (IOException e) {
+            IO.println("Kunne ikke indlæse medlemmer: " + e.getMessage());
+        }
     }
 
     public List<Member> getMembers() {
@@ -33,6 +32,7 @@ public class Club {
         }
         return null;
     }
+
     public double calculateTotalFee(LocalDate date) {
         double totalFee = 0;
 
