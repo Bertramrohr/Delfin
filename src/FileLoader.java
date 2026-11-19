@@ -7,24 +7,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileLoader {
+
     public List<Member> loadMembers(String memberInfo) throws IOException {
         List<Member> members = new ArrayList<>();
         Path path = Path.of(memberInfo);
+
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
+            int lineNumber = 0;
+
             while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
-                Member member = new Member(
-                        fields[0].trim(),
-                        Integer.parseInt(fields[1].trim()),
-                        LocalDate.parse(fields[2].trim()),
-                        fields[3].trim(),
-                        fields[4].trim(),
-                        fields[5].trim(),
-                        LocalDate.parse(fields[6].trim()));
-                members.add(member);
+                lineNumber++;
+
+                if (line.isBlank()) {
+                    continue;
+                }
+
+                try {
+                    String[] fields = line.split(",");
+
+                    if (fields.length != 8) {
+                        System.out.println("Ugyldigt antal felter på linje " + lineNumber);
+                        continue;
+                    }
+
+                    String name = fields[0].trim();
+                    int memberID = Integer.parseInt(fields[1].trim());
+                    LocalDate birthday = LocalDate.parse(fields[2].trim());
+                    String address = fields[3].trim();
+                    String phoneNumber = fields[4].trim();
+                    String email = fields[5].trim();
+                    LocalDate signUpDate = LocalDate.parse(fields[6].trim());
+                    String membershipType = fields[7].trim().toUpperCase();
+
+                    Member member;
+
+                    switch (membershipType) {
+                        case "PASSIVE" -> member = new PassiveMember(
+                                name, memberID, birthday, address,
+                                phoneNumber, email, signUpDate);
+
+                        case "ACTIVE" -> member = new ActiveMember(
+                                name, memberID, birthday, address,
+                                phoneNumber, email, signUpDate);
+
+                        case "COMPETITIVE" -> member = new CompetitiveSwimmer(
+                                name, memberID, birthday, address,
+                                phoneNumber, email, signUpDate, "Ukendt");
+
+                        default -> {
+                            System.out.println("Ukendt medlemstype på linje "
+                                    + lineNumber + ": " + membershipType);
+                            continue;
+                        }
+                    }
+
+                    members.add(member);
+
+                } catch (NumberFormatException | java.time.DateTimeException e) {
+                    System.out.println("Ugyldige medlemsdata på linje " + lineNumber
+                            + ". Linjen springes over.");
+                }
             }
         }
+
         return members;
     }
 }

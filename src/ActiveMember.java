@@ -24,4 +24,8 @@ public class ActiveMember extends Member {
             return 1600.0;
         }
     }
+        @Override
+        public String getMembershipType() {
+            return "ACTIVE";
+    }
 }

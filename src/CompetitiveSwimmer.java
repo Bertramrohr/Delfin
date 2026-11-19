@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompetitiveSwimmer extends ActiveMember {
-    private String team; // "ungdom" eller "senior"
+
+    private String team;
     private List<String> disciplines;
 
     public CompetitiveSwimmer(String name, int memberID, LocalDate birthday, String address,
@@ -13,8 +14,18 @@ public class CompetitiveSwimmer extends ActiveMember {
         this.disciplines = new ArrayList<>();
     }
 
-    public String getTeam() { return team; }
-    public List<String> getDisciplines() { return disciplines; }
+    @Override
+    public String getMembershipType() {
+        return "COMPETITIVE";
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public List<String> getDisciplines() {
+        return disciplines;
+    }
 
     public void addDiscipline(String discipline) {
         disciplines.add(discipline);
