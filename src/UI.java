@@ -78,12 +78,13 @@ public class UI {
             switch (choice) {
                 case 1 -> allMemberInfo();
                 case 2 -> createMember();
-                case 3 -> IO.println("Funktion til at ændre medlemskab kommer snart.");
+                case 3 -> changeMembershipType();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
         }
     }
+
 
     private void cashierMenu() throws IOException {
 
@@ -164,9 +165,9 @@ public class UI {
         // Her vises alle medlemmers info og status.'
         FileLoader loader = new FileLoader();
         List<Member> loadMembers = loader.loadMembers("memberInfo.csv");
-            for (Member member : loadMembers) {
-                IO.println("Medlems navn: " + member.getName() + "\n" + "Tlf: " + member.getPhoneNumber() + "\n" + "Medlems nummer: " + member.getMemberID() +"\n");
-            }
+        for (Member member : loadMembers) {
+            IO.println("Medlems navn: " + member.getName() + "\n" + "Tlf: " + member.getPhoneNumber() + "\n" + "Medlems nummer: " + member.getMemberID() + "\n");
+        }
     }
 
     // OPRET NYT MEDLEM (Eksempel)
@@ -193,6 +194,61 @@ public class UI {
 
         FileSaver saver = new FileSaver();
         saver.saveMembers(club.getMembers(), "memberInfo.csv");
+    }
+
+
+    private void changeMembershipType() throws IOException {
+        IO.println("\n Ændre medlemskabstypen");
+        int id = readInt("Indtast medlemsnummeret: ");
+        Member oldMemberInfo = club.findMemberById(id);
+        if (oldMemberInfo == null) {
+            IO.println("Medlemsnummer eksistrere ikke");
+        }
+        IO.println("nuværende medlemstype: " + oldMemberInfo.getMembershipType());
+
+        IO.println("Vælg den nye medlemstype:");
+        IO.println("1. Aktiv");
+        IO.println("2. Passiv");
+
+        int newMembershipType = readInt("Vælg medlemstype(tal): ");
+
+        Member newMembershipInfo = null;
+
+        switch (newMembershipType) {
+            case 1 ->  newMembershipInfo = new ActiveMember(
+                    oldMemberInfo.getName(),
+                    oldMemberInfo.getMemberID(),
+                    oldMemberInfo.getBirthday(),
+                    oldMemberInfo.getAdress(),
+                    oldMemberInfo.getPhoneNumber(),
+                    oldMemberInfo.getEmail(),
+                    oldMemberInfo.getSignUpDate(),
+                    "ACTIVE"
+            );
+
+            case 2 -> newMembershipInfo = new PassiveMember(
+                    oldMemberInfo.getName(),
+                    oldMemberInfo.getMemberID(),
+                    oldMemberInfo.getBirthday(),
+                    oldMemberInfo.getAdress(),
+                    oldMemberInfo.getPhoneNumber(),
+                    oldMemberInfo.getEmail(),
+                    oldMemberInfo.getSignUpDate(),
+                    "PASSIVE"
+
+            );
+            default -> {
+                IO.println("ugydlgit Valg");
+            }
+        }
+        int index = club.getMembers().indexOf(oldMemberInfo);
+        club.getMembers().set(index, newMembershipInfo);
+        FileSaver newIDSaver = new FileSaver();
+        newIDSaver.saveMembers(club.getMembers(), "memberInfo.csv");
+        IO.println("den nye medlemstype er ændret");
+
+
+
     }
 
     // SØG MEDLEM EFTER ID (Til kundemenuen)
