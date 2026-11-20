@@ -165,7 +165,7 @@ public class UI {
         FileLoader loader = new FileLoader();
         List<Member> loadMembers = loader.loadMembers("memberInfo.csv");
             for (Member member : loadMembers) {
-                IO.println(member.getName() + " " + member.getPhoneNumber() + " " + member.getMemberID());
+                IO.println("Medlems navn: " + member.getName() + "\n" + "Tlf: " + member.getPhoneNumber() + "\n" + "Medlems nummer: " + member.getMemberID() +"\n");
             }
     }
 
