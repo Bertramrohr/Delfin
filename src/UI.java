@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class UI {
@@ -169,12 +170,29 @@ public class UI {
     }
 
     // OPRET NYT MEDLEM (Eksempel)
-    private void createMember() {
+    private void createMember() throws IOException {
         IO.println("\n--- Opret nyt medlem ---");
         String name = IO.readln("Indtast navn: ");
         int id = readInt("Indtast medlemsnummer: ");
-        // Her kan man udbygge med indtastning af fødselsdato, adresse osv.
+        LocalDate birthday = LocalDate.parse(IO.readln("Indtast din fødselsdato: yyyy-mm-dd"));
+        String address = IO.readln("Indtast din adresse: ");
+        String phoneNumber = IO.readln("Indtast dit telefonnummer: ");
+        String email = IO.readln("Indtast din Email: ");
+        Member member = new ActiveMember(
+                name,
+                id,
+                birthday,
+                address,
+                phoneNumber,
+                email,
+                LocalDate.now(),
+                "ACTIVE"
+        );
         IO.println("Medlem oprettet (eksempel).");
+        club.addMember(member);
+
+        FileSaver saver = new FileSaver();
+        saver.saveMembers(club.getMembers(), "memberInfo.csv");
     }
 
     // SØG MEDLEM EFTER ID (Til kundemenuen)
