@@ -1,8 +1,8 @@
-public class Hold {
+public class Team {
         private String type; // F.eks. "Ungdom" eller "Senior"
         private Trainer trainer;
 
-        public Hold(String type, Trainer trainer) {
+        public Team(String type, Trainer trainer) {
             this.type = type;
             this.trainer = trainer;
         }

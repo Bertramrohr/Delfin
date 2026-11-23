@@ -12,11 +12,11 @@ public class ActiveMember extends Member {
 
     @Override
     public double pay(){
-        return calculateFee(LocalDate.now());
+        return calculateFee();
     }
 
-    public double calculateFee(LocalDate date) {
-        int age = Period.between(getBirthday(), date).getYears();
+    public double calculateFee() {
+        int age = calculateAge(LocalDate.now());
 
         if (age < 18) {
             return 1000.0;

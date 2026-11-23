@@ -9,11 +9,11 @@ public class PassiveMember extends Member {
 
     @Override
     public double pay(){
-        return calculateFee(LocalDate.now());
+        return calculateFee();
     }
 
     @Override
-    public double calculateFee(LocalDate date) {
+    public double calculateFee() {
         return 500.0;
     }
 

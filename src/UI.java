@@ -179,21 +179,66 @@ public class UI {
         String address = IO.readln("Indtast din adresse: ");
         String phoneNumber = IO.readln("Indtast dit telefonnummer: ");
         String email = IO.readln("Indtast din Email: ");
-        Member member = new ActiveMember(
-                name,
-                id,
-                birthday,
-                address,
-                phoneNumber,
-                email,
-                LocalDate.now(),
-                "ACTIVE"
-        );
-        IO.println("Medlem oprettet (eksempel).");
+        LocalDate signUpDate = LocalDate.now();
+
+        IO.println("Vælg medlemstypen");
+        IO.println("1. Aktiv Medlem");
+        IO.println("2. Passive Medlem");
+        IO.println("3. Konkurrence Svømmer");
+
+        int choice = readInt("Vælg medlemstype");
+        Member member = null;
+
+        switch (choice) {
+            case 1 -> member = new ActiveMember(
+                    name,
+                    id,
+                    birthday,
+                    address,
+                    phoneNumber,
+                    email,
+                    signUpDate,
+                    "ACTIVE"
+            );
+            case 2 -> member = new PassiveMember(
+                    name,
+                    id,
+                    birthday,
+                    address,
+                    phoneNumber,
+                    email,
+                    signUpDate,
+                    "PASSIVE"
+            );
+            case 3 -> {
+                CompetitiveSwimmer swimmer = new CompetitiveSwimmer(name,
+                        id,
+                        birthday,
+                        address,
+                        phoneNumber,
+                        email,
+                        signUpDate,
+                        "COMPETITIVE");
+
+                String disciplines = IO.readln("Indtast discipliner (Adskilt med komma)");
+
+                for(String discipline : disciplines.split(",")){
+                    if(!discipline.trim().isEmpty()){
+                        swimmer.addDiscipline(discipline.trim());
+                    }
+                }
+                member = swimmer;
+            }
+            default -> IO.println("Ugyldigt valg, medlemmet blev ikke oprettet.");
+
+        }
+
+
         club.addMember(member);
 
         FileSaver saver = new FileSaver();
         saver.saveMembers(club.getMembers(), "memberInfo.csv");
+        IO.println("Medlem oprettet!.");
     }
 
 
@@ -209,13 +254,14 @@ public class UI {
         IO.println("Vælg den nye medlemstype:");
         IO.println("1. Aktiv");
         IO.println("2. Passiv");
+        IO.println("3. Konkurrence Svømmer");
 
         int newMembershipType = readInt("Vælg medlemstype(tal): ");
 
         Member newMembershipInfo = null;
 
         switch (newMembershipType) {
-            case 1 ->  newMembershipInfo = new ActiveMember(
+            case 1 -> newMembershipInfo = new ActiveMember(
                     oldMemberInfo.getName(),
                     oldMemberInfo.getMemberID(),
                     oldMemberInfo.getBirthday(),
@@ -246,7 +292,6 @@ public class UI {
         FileSaver newIDSaver = new FileSaver();
         newIDSaver.saveMembers(club.getMembers(), "memberInfo.csv");
         IO.println("den nye medlemstype er ændret");
-
 
 
     }

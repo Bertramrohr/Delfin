@@ -75,8 +75,12 @@ public abstract class Member {
     }
 
 
-    public abstract double calculateFee(LocalDate date);
+    public abstract double calculateFee();
 
     public abstract String getMembershipType();
+
+    public int calculateAge(LocalDate date){
+        return Period.between(getBirthday(), date).getYears();
+    }
 
 }

@@ -53,7 +53,7 @@ public class FileLoader {
 
                         case "COMPETITIVE" -> member = new CompetitiveSwimmer(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, "Ukendt", membershipType);
+                                phoneNumber, email, signUpDate, membershipType);
 
                         default -> {
                             System.out.println("Ukendt medlemstype på linje "

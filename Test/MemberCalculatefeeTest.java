@@ -13,8 +13,7 @@ public class MemberCalculatefeeTest {
         Club club = new Club();
 
         // Act
-        double totalFee = club.calculateTotalFee(
-                LocalDate.of(2026, 11, 19));
+        double totalFee = club.calculateTotalFee();
 
         // Assert
         assertEquals(3100.0, totalFee);

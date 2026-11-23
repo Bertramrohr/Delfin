@@ -33,11 +33,11 @@ public class Club {
         return null;
     }
 
-    public double calculateTotalFee(LocalDate date) {
+    public double calculateTotalFee() {
         double totalFee = 0;
 
         for (Member member : members) {
-            totalFee += member.calculateFee(date);
+            totalFee += member.calculateFee();
         }
 
         return totalFee;
