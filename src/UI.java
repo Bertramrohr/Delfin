@@ -92,7 +92,7 @@ public class UI {
         while (running) {
             IO.println("Menu for kasserer");
             IO.println();
-            IO.println("1. Medlemskab");
+            IO.println("1. Ændre Medlemskab");
             IO.println("2. Medlemmer i restance");
             IO.println("3. Data og information");
             IO.println("0. Tilbage");
@@ -101,9 +101,7 @@ public class UI {
             int choice = readInt("Vælg et nummer fra menuen: ");
 
             switch (choice) {
-                case 1 -> {
-                    // Kunne finde medlemmet kontingent og info
-                }
+                case 1 -> changeMembershipType();
                 case 2 -> {
                     // Kunne finde liste over medlemmer i restance
                 }
@@ -222,8 +220,8 @@ public class UI {
 
                 String disciplines = IO.readln("Indtast discipliner (Adskilt med komma)");
 
-                for(String discipline : disciplines.split(",")){
-                    if(!discipline.trim().isEmpty()){
+                for (String discipline : disciplines.split(",")) {
+                    if (!discipline.trim().isEmpty()) {
                         swimmer.addDiscipline(discipline.trim());
                     }
                 }
@@ -269,8 +267,7 @@ public class UI {
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
                     oldMemberInfo.getSignUpDate(),
-                    "ACTIVE"
-            );
+                    "ACTIVE");
 
             case 2 -> newMembershipInfo = new PassiveMember(
                     oldMemberInfo.getName(),
@@ -280,9 +277,18 @@ public class UI {
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
                     oldMemberInfo.getSignUpDate(),
-                    "PASSIVE"
+                    "PASSIVE");
 
-            );
+            case 3 -> newMembershipInfo = new CompetitiveSwimmer(
+                    oldMemberInfo.getName(),
+                    oldMemberInfo.getMemberID(),
+                    oldMemberInfo.getBirthday(),
+                    oldMemberInfo.getAdress(),
+                    oldMemberInfo.getPhoneNumber(),
+                    oldMemberInfo.getEmail(),
+                    oldMemberInfo.getSignUpDate(),
+                    "COMPETITIVE");
+
             default -> {
                 IO.println("ugydlgit Valg");
             }
