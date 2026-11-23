@@ -9,6 +9,12 @@ public class ActiveMember extends Member {
         super(name, memberID, birthday, address, phoneNumber, email, signUpDate, membershipType);
     }
 
+
+    @Override
+    public double pay(){
+        return calculateFee(LocalDate.now());
+    }
+
     public double calculateFee(LocalDate date) {
         int age = Period.between(getBirthday(), date).getYears();
 
