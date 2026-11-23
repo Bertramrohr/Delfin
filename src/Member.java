@@ -25,6 +25,10 @@ public abstract class Member {
         this.membershipType = membershipType;
     }
 
+    public double pay(){
+        return 0.0;
+    }
+
     // Getters
     public String getName() {
         return name;
