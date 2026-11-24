@@ -202,7 +202,7 @@ public class UI {
         int id = readInt("Indtast medlemsnummeret: ");
         Member oldMemberInfo = club.findMemberById(id);
         if (oldMemberInfo == null) {
-            IO.println("Medlemsnummer eksistrere ikke");
+            IO.println("Medlemsnummer eksisterer ikke");
         }
         IO.println("nuværende medlemstype: " + oldMemberInfo.getMembershipType());
 
@@ -238,14 +238,14 @@ public class UI {
 
             );
             default -> {
-                IO.println("ugydlgit Valg");
+                IO.println("Ugyldigt valg");
             }
         }
         int index = club.getMembers().indexOf(oldMemberInfo);
         club.getMembers().set(index, newMembershipInfo);
         FileSaver newIDSaver = new FileSaver();
         newIDSaver.saveMembers(club.getMembers(), "memberInfo.csv");
-        IO.println("den nye medlemstype er ændret");
+        IO.println("Den nye medlemstype er ændret");
 
 
 
