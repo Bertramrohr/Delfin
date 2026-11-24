@@ -45,15 +45,15 @@ public class FileLoader {
                     switch (membershipType) {
                         case "PASSIVE" -> member = new PassiveMember(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, membershipType);
+                                phoneNumber, email, signUpDate);
 
                         case "ACTIVE" -> member = new ActiveMember(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, membershipType);
+                                phoneNumber, email, signUpDate);
 
                         case "COMPETITIVE" -> member = new CompetitiveSwimmer(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, membershipType);
+                                phoneNumber, email, signUpDate);
 
                         default -> {
                             System.out.println("Ukendt medlemstype på linje "

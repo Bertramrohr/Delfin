@@ -3,8 +3,8 @@ import java.time.LocalDate;
 public class PassiveMember extends Member {
 
     public PassiveMember(String name, int memberID, LocalDate birthday, String address,
-                         String phoneNumber, String email, LocalDate signUpDate, String membershipType) {
-        super(name, memberID, birthday, address, phoneNumber, email, signUpDate, membershipType);
+                         String phoneNumber, String email, LocalDate signUpDate) {
+        super(name, memberID, birthday, address, phoneNumber, email, signUpDate);
     }
 
     @Override

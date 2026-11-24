@@ -9,11 +9,9 @@ public abstract class Member {
     final String phoneNumber;
     final String email;
     final LocalDate signUpDate;
-    final String membershipType;
-
 
     public Member(String name, int memberID, LocalDate birthday, String adress,
-                  String phoneNumber, String email, LocalDate signUpDate, String membershipType) {
+                  String phoneNumber, String email, LocalDate signUpDate) {
 
         this.name = name;
         this.memberID = memberID;
@@ -22,7 +20,6 @@ public abstract class Member {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.signUpDate = signUpDate;
-        this.membershipType = membershipType;
     }
 
     public double pay(){
@@ -71,7 +68,7 @@ public abstract class Member {
                 Oprettelses Dato: %s
                 Status: %s
                 
-                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, membershipType);
+                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, getMembershipType());
     }
 
 

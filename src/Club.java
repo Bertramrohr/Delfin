@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Club {
     private List<Member> members;
+    private List<Result> results;
 
     public Club() {
         members = new ArrayList<>();
