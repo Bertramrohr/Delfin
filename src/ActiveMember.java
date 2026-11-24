@@ -11,23 +11,21 @@ public class ActiveMember extends Member {
 
 
     @Override
-    public double pay(){
-        return calculateFee();
-    }
+    public double calculateFee(LocalDate date) {
 
-    public double calculateFee() {
-        int age = calculateAge(LocalDate.now());
+        int age = calculateAge(date);
 
         if (age < 18) {
             return 1000.0;
-        } else if (age >= 60) {
-            return 1600.0 * 0.75; // 1200 kr.
+        } else if (age > 60) {
+            return 1600.0 * 0.75;
         } else {
             return 1600.0;
         }
     }
-        @Override
-        public String getMembershipType() {
-            return "ACTIVE";
+
+    @Override
+    public String getMembershipType() {
+        return "ACTIVE";
     }
 }

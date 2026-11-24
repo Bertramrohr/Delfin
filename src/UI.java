@@ -173,10 +173,11 @@ public class UI {
         IO.println("\n--- Opret nyt medlem ---");
         String name = IO.readln("Indtast navn: ");
         int id = readInt("Indtast medlemsnummer: ");
-        LocalDate birthday = LocalDate.parse(IO.readln("Indtast din fødselsdato: yyyy-mm-dd"));
+        LocalDate birthday = readDate("Indtast fødselsdato (yyyy-mm-dd): ");
         String address = IO.readln("Indtast din adresse: ");
         String phoneNumber = IO.readln("Indtast dit telefonnummer: ");
         String email = IO.readln("Indtast din Email: ");
+
         LocalDate signUpDate = LocalDate.now();
 
         IO.println("Vælg medlemstypen");
@@ -195,8 +196,7 @@ public class UI {
                     address,
                     phoneNumber,
                     email,
-                    signUpDate,
-                    "ACTIVE"
+                    signUpDate
             );
             case 2 -> member = new PassiveMember(
                     name,
@@ -205,8 +205,7 @@ public class UI {
                     address,
                     phoneNumber,
                     email,
-                    signUpDate,
-                    "PASSIVE"
+                    signUpDate
             );
             case 3 -> {
                 CompetitiveSwimmer swimmer = new CompetitiveSwimmer(name,
@@ -215,8 +214,7 @@ public class UI {
                         address,
                         phoneNumber,
                         email,
-                        signUpDate,
-                        "COMPETITIVE");
+                        signUpDate);
 
                 String disciplines = IO.readln("Indtast discipliner (Adskilt med komma)");
 
@@ -227,8 +225,10 @@ public class UI {
                 }
                 member = swimmer;
             }
-            default -> IO.println("Ugyldigt valg, medlemmet blev ikke oprettet.");
-
+            default -> {
+                IO.println("Ugyldigt valg, medlemmet blev ikke oprettet.");
+                return;
+            }
         }
 
 
@@ -246,6 +246,8 @@ public class UI {
         Member oldMemberInfo = club.findMemberById(id);
         if (oldMemberInfo == null) {
             IO.println("Medlemsnummer eksistrere ikke");
+            return;
+
         }
         IO.println("nuværende medlemstype: " + oldMemberInfo.getMembershipType());
 
@@ -266,8 +268,7 @@ public class UI {
                     oldMemberInfo.getAdress(),
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
-                    oldMemberInfo.getSignUpDate(),
-                    "ACTIVE");
+                    oldMemberInfo.getSignUpDate());
 
             case 2 -> newMembershipInfo = new PassiveMember(
                     oldMemberInfo.getName(),
@@ -276,8 +277,7 @@ public class UI {
                     oldMemberInfo.getAdress(),
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
-                    oldMemberInfo.getSignUpDate(),
-                    "PASSIVE");
+                    oldMemberInfo.getSignUpDate());
 
             case 3 -> newMembershipInfo = new CompetitiveSwimmer(
                     oldMemberInfo.getName(),
@@ -286,11 +286,11 @@ public class UI {
                     oldMemberInfo.getAdress(),
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
-                    oldMemberInfo.getSignUpDate(),
-                    "COMPETITIVE");
+                    oldMemberInfo.getSignUpDate());
 
             default -> {
-                IO.println("ugydlgit Valg");
+                IO.println("Ugydlgit Valg");
+                return;
             }
         }
         int index = club.getMembers().indexOf(oldMemberInfo);
@@ -341,4 +341,16 @@ public class UI {
     private void information() {
     }
 
+    private LocalDate readDate(String prompt) {
+
+        while (true) {
+            try {
+                String input = IO.readln(prompt).trim();
+                return LocalDate.parse(input);
+
+            } catch (java.time.format.DateTimeParseException e) {
+                IO.println("Ugyldig dato. Brug formatet yyyy-mm-dd.");
+            }
+        }
+    }
 }

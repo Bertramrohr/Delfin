@@ -22,9 +22,21 @@ public abstract class Member {
         this.signUpDate = signUpDate;
     }
 
-    public double pay(){
-        return 0.0;
+    // til kontingent beregning
+    public abstract double calculateFee(LocalDate date);
+
+    // Betaling med dags dato
+    public double pay() {
+        return calculateFee(LocalDate.now());
     }
+
+    // Medlemsalder
+    public int calculateAge(LocalDate date) {
+        return Period.between(getBirthday(), date).getYears();
+    }
+
+    // Medlemstype
+    public abstract String getMembershipType();
 
     // Getters
     public String getName() {
@@ -55,7 +67,6 @@ public abstract class Member {
         return signUpDate;
     }
 
-
     //To-String
     public String toString() {
         return String.format("""
@@ -70,14 +81,4 @@ public abstract class Member {
                 
                 """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, getMembershipType());
     }
-
-
-    public abstract double calculateFee();
-
-    public abstract String getMembershipType();
-
-    public int calculateAge(LocalDate date){
-        return Period.between(getBirthday(), date).getYears();
-    }
-
 }

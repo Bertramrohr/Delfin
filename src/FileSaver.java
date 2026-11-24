@@ -6,12 +6,19 @@ import java.util.List;
 
 public class FileSaver {
 
-    private String delimiter = ", ";
+    private String delimiter = "; ";
 
     public void saveMembers(List<Member> members, String memberInfo) throws IOException {
         Path path = Path.of(memberInfo);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (Member member : members) {
+                String disciplines = "";
+                if (member instanceof CompetitiveSwimmer swimmer) {
+                    disciplines = String.join(
+                            ",",
+                            swimmer.getDisciplines()
+                    );
+                }
                 writer.write(member.getName() + delimiter
                         + member.getMemberID() + delimiter
                         + member.getBirthday() + delimiter
@@ -19,7 +26,10 @@ public class FileSaver {
                         + member.getPhoneNumber() + delimiter
                         + member.getEmail() + delimiter
                         + member.getSignUpDate() + delimiter
-                        + member.getMembershipType());
+                        + member.getMembershipType() + delimiter
+                        + disciplines
+                );
+
                 writer.newLine();
             }
         }
