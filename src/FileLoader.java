@@ -23,11 +23,12 @@ public class FileLoader {
                     continue;
                 }
 
-                try {
-                    String[] fields = line.split(",");
 
-                    if (fields.length != 8) {
-                        System.out.println("Ugyldigt antal felter på linje " + lineNumber);
+                try {
+                    String[] fields = line.split(";", -1);
+
+                    if (fields.length != 8 && fields.length != 9) {
+                        IO.println("Ugyldigt antal felter på linje " + lineNumber);
                         continue;
                     }
 
@@ -45,18 +46,18 @@ public class FileLoader {
                     switch (membershipType) {
                         case "PASSIVE" -> member = new PassiveMember(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, membershipType);
+                                phoneNumber, email, signUpDate);
 
                         case "ACTIVE" -> member = new ActiveMember(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, membershipType);
+                                phoneNumber, email, signUpDate);
 
                         case "COMPETITIVE" -> member = new CompetitiveSwimmer(
                                 name, memberID, birthday, address,
-                                phoneNumber, email, signUpDate, "Ukendt", membershipType);
+                                phoneNumber, email, signUpDate);
 
                         default -> {
-                            System.out.println("Ukendt medlemstype på linje "
+                            IO.println("Ukendt medlemstype på linje "
                                     + lineNumber + ": " + membershipType);
                             continue;
                         }

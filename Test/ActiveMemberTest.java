@@ -15,10 +15,9 @@ public class ActiveMemberTest {
                 "København",
                 "12345678",
                 "emma@gmail.com",
-                LocalDate.of(2026, 9, 17),
-                "ACTIIVE");
+                LocalDate.of(2026, 9, 17));
         //Act
-        double fee = member.calculateFee(LocalDate.now());
+        double fee = member.calculateFee();
 
         //Assert
         assertEquals(1000.0, fee);
@@ -34,11 +33,10 @@ public class ActiveMemberTest {
                 "Albertslund",
                 "53648391",
                 "rasmus@gmail.com",
-                LocalDate.of(2026, 9, 17),
-                "ACTIVE");
+                LocalDate.of(2026, 9, 17));
 
         //ACt
-        double fee = member.calculateFee(LocalDate.now());
+        double fee = member.calculateFee();
 
         //Assert
         assertEquals(1600.0, fee);
@@ -55,10 +53,9 @@ public class ActiveMemberTest {
                 "Roskilde",
                 "87654321",
                 "peter@gmail.com",
-                LocalDate.of(2026, 9, 17),
-                "ACTIVE");
+                LocalDate.of(2026, 9, 17));
         //ACT
-        double fee = member.calculateFee(LocalDate.now());
+        double fee = member.calculateFee();
 
         //Assert
         assertEquals(1200.0, fee);
@@ -75,10 +72,9 @@ public class ActiveMemberTest {
                 "Roskilde",
                 "87654321",
                 "peter@gmail.com",
-                LocalDate.of(2026, 9, 17),
-                "ACTIVE");
+                LocalDate.of(2026, 9, 17));
         //ACT
-        double fee = member.calculateFee(LocalDate.now());
+        double fee = member.calculateFee();
 
         //Assert
         assertEquals(1200.0, fee);

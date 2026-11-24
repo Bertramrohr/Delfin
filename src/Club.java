@@ -5,10 +5,14 @@ import java.util.List;
 
 public class Club {
     private List<Member> members;
+    private List<Result> results;
 
     public Club() {
         members = new ArrayList<>();
+        results = new ArrayList<>();
+
         FileLoader fileLoader = new FileLoader();
+
         try {
             members = fileLoader.loadMembers("memberInfo.csv");
         } catch (IOException e) {
@@ -21,23 +25,28 @@ public class Club {
     }
 
     public void addMember(Member member) {
-        members.add(member);
+        if (member != null) {
+            members.add(member);
+        }
     }
 
     public Member findMemberById(int id) {
-        for (Member m : members) {
-            if (m.getMemberID() == id) {
-                return m;
+
+        for (Member member : members) {
+            if (member.getMemberID() == id) {
+                return member;
             }
         }
+
         return null;
     }
 
-    public double calculateTotalFee(LocalDate date) {
+    public double calculateTotalFee() {
+
         double totalFee = 0;
 
         for (Member member : members) {
-            totalFee += member.calculateFee(date);
+            totalFee += member.calculateFee(LocalDate.now());
         }
 
         return totalFee;

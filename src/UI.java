@@ -92,7 +92,7 @@ public class UI {
         while (running) {
             IO.println("Menu for kasserer");
             IO.println();
-            IO.println("1. Medlemskab");
+            IO.println("1. Ændre Medlemskab");
             IO.println("2. Medlemmer i restance");
             IO.println("3. Data og information");
             IO.println("0. Tilbage");
@@ -101,9 +101,7 @@ public class UI {
             int choice = readInt("Vælg et nummer fra menuen: ");
 
             switch (choice) {
-                case 1 -> {
-                    // Kunne finde medlemmet kontingent og info
-                }
+                case 1 -> changeMembershipType();
                 case 2 -> {
                     // Kunne finde liste over medlemmer i restance
                 }
@@ -175,25 +173,70 @@ public class UI {
         IO.println("\n--- Opret nyt medlem ---");
         String name = IO.readln("Indtast navn: ");
         int id = readInt("Indtast medlemsnummer: ");
-        LocalDate birthday = LocalDate.parse(IO.readln("Indtast din fødselsdato: yyyy-mm-dd"));
+        LocalDate birthday = readDate("Indtast fødselsdato (yyyy-mm-dd): ");
         String address = IO.readln("Indtast din adresse: ");
         String phoneNumber = IO.readln("Indtast dit telefonnummer: ");
         String email = IO.readln("Indtast din Email: ");
-        Member member = new ActiveMember(
-                name,
-                id,
-                birthday,
-                address,
-                phoneNumber,
-                email,
-                LocalDate.now(),
-                "ACTIVE"
-        );
-        IO.println("Medlem oprettet (eksempel).");
+
+        LocalDate signUpDate = LocalDate.now();
+
+        IO.println("Vælg medlemstypen");
+        IO.println("1. Aktiv Medlem");
+        IO.println("2. Passive Medlem");
+        IO.println("3. Konkurrence Svømmer");
+
+        int choice = readInt("Vælg medlemstype");
+        Member member = null;
+
+        switch (choice) {
+            case 1 -> member = new ActiveMember(
+                    name,
+                    id,
+                    birthday,
+                    address,
+                    phoneNumber,
+                    email,
+                    signUpDate
+            );
+            case 2 -> member = new PassiveMember(
+                    name,
+                    id,
+                    birthday,
+                    address,
+                    phoneNumber,
+                    email,
+                    signUpDate
+            );
+            case 3 -> {
+                CompetitiveSwimmer swimmer = new CompetitiveSwimmer(name,
+                        id,
+                        birthday,
+                        address,
+                        phoneNumber,
+                        email,
+                        signUpDate);
+
+                String disciplines = IO.readln("Indtast discipliner (Adskilt med komma)");
+
+                for (String discipline : disciplines.split(",")) {
+                    if (!discipline.trim().isEmpty()) {
+                        swimmer.addDiscipline(discipline.trim());
+                    }
+                }
+                member = swimmer;
+            }
+            default -> {
+                IO.println("Ugyldigt valg, medlemmet blev ikke oprettet.");
+                return;
+            }
+        }
+
+
         club.addMember(member);
 
         FileSaver saver = new FileSaver();
         saver.saveMembers(club.getMembers(), "memberInfo.csv");
+        IO.println("Medlem oprettet!.");
     }
 
 
@@ -209,22 +252,21 @@ public class UI {
         IO.println("Vælg den nye medlemstype:");
         IO.println("1. Aktiv");
         IO.println("2. Passiv");
+        IO.println("3. Konkurrence Svømmer");
 
         int newMembershipType = readInt("Vælg medlemstype(tal): ");
 
         Member newMembershipInfo = null;
 
         switch (newMembershipType) {
-            case 1 ->  newMembershipInfo = new ActiveMember(
+            case 1 -> newMembershipInfo = new ActiveMember(
                     oldMemberInfo.getName(),
                     oldMemberInfo.getMemberID(),
                     oldMemberInfo.getBirthday(),
                     oldMemberInfo.getAdress(),
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
-                    oldMemberInfo.getSignUpDate(),
-                    "ACTIVE"
-            );
+                    oldMemberInfo.getSignUpDate());
 
             case 2 -> newMembershipInfo = new PassiveMember(
                     oldMemberInfo.getName(),
@@ -233,10 +275,17 @@ public class UI {
                     oldMemberInfo.getAdress(),
                     oldMemberInfo.getPhoneNumber(),
                     oldMemberInfo.getEmail(),
-                    oldMemberInfo.getSignUpDate(),
-                    "PASSIVE"
+                    oldMemberInfo.getSignUpDate());
 
-            );
+            case 3 -> newMembershipInfo = new CompetitiveSwimmer(
+                    oldMemberInfo.getName(),
+                    oldMemberInfo.getMemberID(),
+                    oldMemberInfo.getBirthday(),
+                    oldMemberInfo.getAdress(),
+                    oldMemberInfo.getPhoneNumber(),
+                    oldMemberInfo.getEmail(),
+                    oldMemberInfo.getSignUpDate());
+
             default -> {
                 IO.println("Ugyldigt valg");
             }
@@ -246,7 +295,6 @@ public class UI {
         FileSaver newIDSaver = new FileSaver();
         newIDSaver.saveMembers(club.getMembers(), "memberInfo.csv");
         IO.println("Den nye medlemstype er ændret");
-
 
 
     }
@@ -290,4 +338,16 @@ public class UI {
     private void information() {
     }
 
+    private LocalDate readDate(String prompt) {
+
+        while (true) {
+            try {
+                String input = IO.readln(prompt).trim();
+                return LocalDate.parse(input);
+
+            } catch (java.time.format.DateTimeParseException e) {
+                IO.println("Ugyldig dato. Brug formatet yyyy-mm-dd.");
+            }
+        }
+    }
 }

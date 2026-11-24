@@ -9,11 +9,9 @@ public abstract class Member {
     final String phoneNumber;
     final String email;
     final LocalDate signUpDate;
-    final String membershipType;
-
 
     public Member(String name, int memberID, LocalDate birthday, String adress,
-                  String phoneNumber, String email, LocalDate signUpDate, String membershipType) {
+                  String phoneNumber, String email, LocalDate signUpDate) {
 
         this.name = name;
         this.memberID = memberID;
@@ -22,12 +20,23 @@ public abstract class Member {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.signUpDate = signUpDate;
-        this.membershipType = membershipType;
     }
 
-    public double pay(){
-        return 0.0;
+    // til kontingent beregning
+    public abstract double calculateFee(LocalDate date);
+
+    // Betaling med dags dato
+    public double pay() {
+        return calculateFee(LocalDate.now());
     }
+
+    // Medlemsalder
+    public int calculateAge(LocalDate date) {
+        return Period.between(getBirthday(), date).getYears();
+    }
+
+    // Medlemstype
+    public abstract String getMembershipType();
 
     // Getters
     public String getName() {
@@ -58,7 +67,6 @@ public abstract class Member {
         return signUpDate;
     }
 
-
     //To-String
     public String toString() {
         return String.format("""
@@ -71,12 +79,6 @@ public abstract class Member {
                 Oprettelses Dato: %s
                 Status: %s
                 
-                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, membershipType);
+                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, getMembershipType());
     }
-
-
-    public abstract double calculateFee(LocalDate date);
-
-    public abstract String getMembershipType();
-
 }
