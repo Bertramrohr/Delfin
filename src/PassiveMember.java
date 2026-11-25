@@ -8,7 +8,7 @@ public class PassiveMember extends Member {
     }
 
     @Override
-    public double calculateFee(LocalDate date) {
+    public double calculateFee(int age) {
         return 500.0;
     }
 
