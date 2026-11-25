@@ -40,7 +40,7 @@ public class FileSaver {
     public void createResultsCsv(List<Result> results, String swimmingResults) throws IOException {
         Path path = Path.of(swimmingResults);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write("type,time,date,event,placement");
+            writer.write("medlemsId,type,time,date,placement,event");
             writer.newLine();
             for (Result result : results) {
                 writer.write(result.toCsv());

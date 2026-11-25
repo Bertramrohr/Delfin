@@ -144,19 +144,22 @@ public class UI {
             IO.println("Menu for træner");
             IO.println("1. Søg i medlemmer (via medlemsnummer)");
             IO.println("2. Søg i hold");
-            IO.println("3. Søg i resultater");
+            IO.println("3. Opret resultater");
+            IO.println("4. Søg i resultater");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
             switch (choice) {
                 case 1 -> searchMemberById();
                 case 2 -> information();
-                case 3 -> results();
+                case 3 -> createResults();
+                case 4 -> results();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
         }
     }
+
 
     // VIS ALLE MEDLEMMERS INFORMATION
     private void allMemberInfo() throws IOException {
@@ -332,6 +335,36 @@ public class UI {
     // VIS RESULTATER
     private void results() {
         // Her kan man vælge stævner eller træningsresultater.
+    }
+
+
+    private void createResults() {
+        IO.println("Opret resultater for svømmeren");
+        IO.println("Vælg om det er træningsresultat eller konkurrenceresultat\n");
+        IO.println("1. Opret trænings resultat");
+        IO.println("2. Opret konkurrence resultat");
+
+        int resultChoice = readInt("Vælg resultat typen: ");
+
+        switch(resultChoice){
+            case 1 -> {
+                int id = readInt("Indtast svømmerens medlemsnummer: ");
+                String discipline = IO.readln("Indtast disciplinen: ");
+                int resultTime = readInt("Indtast tiden for svømmeren: ");
+                LocalDate resultDate = readDate("Indtast datoen for resultatet (yyyy-mm-dd): ");
+
+                result = new Result()
+            }
+        }
+
+        int id = readInt("Indtast svømmerens medlemsnummer: ");
+        String discipline = IO.readln("Indtast disciplinen: ");
+        int resultTime = readInt("Indtast tiden for svømmeren: ");
+        LocalDate resultDate = readDate("Indtast datoen for resultatet (yyyy-mm-dd): ");
+
+        int placement = readInt("Indtast podie pladsen: ");
+        String event = IO.readln("Indtast stævnet: ");
+
     }
 
     // VIS EGET MEDLEMSKAB OG INFORMATION
