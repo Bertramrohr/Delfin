@@ -4,8 +4,9 @@ public class CompetitionResult extends Result {
     private int placement;
     private String competitionName;
 
-    public CompetitionResult(double time, LocalDate date, Discipline discipline, int placement, String competitionName) {
-        super(time, date, discipline);
+    public CompetitionResult(int memberId, double time, LocalDate date,
+                             Discipline discipline, int placement, String competitionName) {
+        super(memberId, time, date, discipline);
         this.placement = placement;
         this.competitionName = competitionName;
     }
@@ -14,7 +15,7 @@ public class CompetitionResult extends Result {
     public String getCompetitionName() { return competitionName; }
 
     @Override
-    public int toCsv() {
-        return 0;
+    public String toCsv() {
+        return "0";
     }
 }

@@ -30,6 +30,7 @@ public class Club {
         }
     }
 
+
     public Member findMemberById(int id) {
 
         for (Member member : members) {
@@ -50,5 +51,13 @@ public class Club {
         }
 
         return total;
+    }
+
+    public void addResult(Result result) {
+        results.add(result);
+    }
+
+    public List<Result> getResults() {
+        return results;
     }
 }
