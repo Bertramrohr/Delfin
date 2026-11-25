@@ -11,13 +11,11 @@ public class ActiveMember extends Member {
 
 
     @Override
-    public double calculateFee(LocalDate date) {
-
-        int age = calculateAge(date);
+    public double calculateFee(int age) {
 
         if (age < 18) {
             return 1000.0;
-        } else if (age > 60) {
+        } else if (age >= 60) {
             return 1600.0 * 0.75;
         } else {
             return 1600.0;

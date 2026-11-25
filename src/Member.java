@@ -22,19 +22,24 @@ public abstract class Member {
         this.email = email;
         this.signUpDate = signUpDate;
     }
-
-    // til kontingent beregning
-    public abstract double calculateFee(LocalDate date);
-
-    // Betaling med dags dato
-    public double pay() {
-        return calculateFee(LocalDate.now());
-    }
-
     // Medlemsalder
     public int calculateAge(LocalDate date) {
         return Period.between(getBirthday(), date).getYears();
     }
+
+    //Beregner ud fra dags dato
+    public int calculateAge(){
+        return calculateAge(LocalDate.now());
+    }
+
+    // til kontingent beregning
+    public abstract double calculateFee(int age);
+
+    //samler alder og kontigentberegning
+    public double calculateFee(){
+        return calculateFee(calculateAge());
+    }
+
 
     // Medlemstype
     public abstract String getMembershipType();
