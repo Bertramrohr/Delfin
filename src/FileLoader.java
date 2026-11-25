@@ -56,6 +56,10 @@ public class FileLoader {
                                 name, memberID, birthday, address,
                                 phoneNumber, email, signUpDate);
 
+                        case "EXERCISER" -> member = new Exerciser(
+                                name, memberID, birthday, address,
+                                phoneNumber, email, signUpDate);
+
                         default -> {
                             IO.println("Ukendt medlemstype på linje "
                                     + lineNumber + ": " + membershipType);

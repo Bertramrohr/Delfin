@@ -184,6 +184,7 @@ public class UI {
         IO.println("1. Aktiv Medlem");
         IO.println("2. Passive Medlem");
         IO.println("3. Konkurrence Svømmer");
+        IO.println("4. Motionist");
 
         int choice = readInt("Vælg medlemstype");
         Member member = null;
@@ -208,7 +209,8 @@ public class UI {
                     signUpDate
             );
             case 3 -> {
-                CompetitiveSwimmer swimmer = new CompetitiveSwimmer(name,
+                CompetitiveSwimmer swimmer = new CompetitiveSwimmer(
+                        name,
                         id,
                         birthday,
                         address,
@@ -225,6 +227,19 @@ public class UI {
                 }
                 member = swimmer;
             }
+            case 4 ->{
+                member = new Exerciser(
+                        name,
+                        id,
+                        birthday,
+                        address,
+                        phoneNumber,
+                        email,
+                        signUpDate);
+            }
+
+
+
             default -> {
                 IO.println("Ugyldigt valg, medlemmet blev ikke oprettet.");
                 return;
