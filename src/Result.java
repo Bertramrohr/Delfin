@@ -14,4 +14,6 @@ public abstract class Result {
     public double getTime() { return time; }
     public LocalDate getDate() { return date; }
     public Discipline getDiscipline() { return discipline; }
+
+    public abstract int toCsv();
 }

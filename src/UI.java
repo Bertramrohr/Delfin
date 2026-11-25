@@ -255,6 +255,9 @@ public class UI {
     }
 
 
+
+
+
     private void changeMembershipType() throws IOException {
         IO.println("\n Ændre medlemskabstypen");
         int id = readInt("Indtast medlemsnummeret: ");

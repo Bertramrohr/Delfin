@@ -12,4 +12,9 @@ public class CompetitionResult extends Result {
 
     public int getPlacement() { return placement; }
     public String getCompetitionName() { return competitionName; }
+
+    @Override
+    public int toCsv() {
+        return 0;
+    }
 }
