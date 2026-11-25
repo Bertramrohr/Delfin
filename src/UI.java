@@ -345,15 +345,13 @@ public class UI {
         // Find svømmeren
         int id = readInt("Indtast svømmerens medlemsnummer: ");
 
+
         Member member = club.findMemberById(id);
+
+        IO.println("Medlemmet hvis tid du opretter: " + member.getName());
 
         if (member == null) {
             IO.println("Medlemmet findes ikke.");
-            return;
-        }
-
-        if (!(member instanceof CompetitiveSwimmer)) {
-            IO.println("Medlemmet er ikke en konkurrencesvømmer.");
             return;
         }
 
@@ -407,7 +405,7 @@ public class UI {
         FileSaver saver = new FileSaver();
         saver.createResultsCsv(club.getResults(), "swimmingResults.csv");
 
-        IO.println("Resultatet er oprettet!");
+        IO.println("Resultatet for " + member.getName() + " er oprettet!");
     }
 
 

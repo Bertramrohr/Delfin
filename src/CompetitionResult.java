@@ -16,6 +16,12 @@ public class CompetitionResult extends Result {
 
     @Override
     public String toCsv() {
-        return "0";
+        return getMemberId() + "," +
+                "COMPETITION" + "," +
+                getTime() + "," +
+                getDate() + "," +
+                getDiscipline().getName() + "," +
+                placement + "," +
+                competitionName;
     }
 }

@@ -7,6 +7,12 @@ public class TrainingResult extends Result {
 
     @Override
     public String toCsv() {
-        return "";
+        return getMemberId() + "," +
+                "TRAINING" + "," +
+                getTime() + "," +
+                getDate() + "," +
+                getDiscipline().getName() + "," +
+                "," +
+                "";
     }
 }
