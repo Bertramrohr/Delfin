@@ -129,7 +129,7 @@ public class UI {
             switch (choice) {
                 case 1 -> information();
                 case 2 -> allMemberInfo(); // Genbruger evt. til kontaktinfo
-                case 3 -> results();
+                case 3 -> seeAllResults();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
@@ -145,7 +145,7 @@ public class UI {
             IO.println("1. Søg i medlemmer (via medlemsnummer)");
             IO.println("2. Søg i hold");
             IO.println("3. Opret resultater");
-            IO.println("4. Søg i resultater");
+            IO.println("4. Se alle resultater");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
@@ -153,7 +153,7 @@ public class UI {
                 case 1 -> searchMemberById();
                 case 2 -> information();
                 case 3 -> createResults();
-                case 4 -> results();
+                case 4 -> seeAllResults();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
@@ -329,8 +329,12 @@ public class UI {
     }
 
     // VIS RESULTATER
-    private void results() {
-        // Her kan man vælge stævner eller træningsresultater.
+    private void seeAllResults() throws IOException {
+        FileLoader loader = new FileLoader();
+        List<Result> loadResults = loader.loadResults("swimmingResults.csv");
+        for (Result result : loadResults) {
+            IO.println("\n Medlems ID: " + result.getMemberId() + "\n" + "Disciplin: " + result.getDiscipline() + "\n" + "Tid: " + result.getTime() + "\n");
+        }
     }
 
 
