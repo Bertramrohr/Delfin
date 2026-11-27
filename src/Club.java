@@ -18,7 +18,16 @@ public class Club {
         } catch (IOException e) {
             IO.println("Kunne ikke indlæse medlemmer: " + e.getMessage());
         }
+
+        results = new ArrayList<>();
+
+        try {
+            results = fileLoader.loadResults("swimmingResults.csv");
+        } catch (IOException e) {
+            IO.println("Kunne ikke indlæse resultater: " + e.getMessage());
+        }
     }
+
 
     public List<Member> getMembers() {
         return members;
@@ -29,6 +38,7 @@ public class Club {
             members.add(member);
         }
     }
+
 
     public Member findMemberById(int id) {
 
@@ -41,8 +51,8 @@ public class Club {
         return null;
     }
 
+    // Samlet forventet årlig indkomst fra alle medlemmer
     public double calculateTotalFee() {
-
         double total = 0;
 
         for (Member member : members) {
@@ -105,5 +115,46 @@ public class Club {
         }
 
         return topFive;
+    // Samlet faktisk indbetalt kontingent
+    public double calculateCollectedIncome() {
+        double total = 0;
+
+        for (Member member : members) {
+            if (member.isPaid()) {
+                total += member.calculateFee();
+            }
+        }
+
+        return total;
+    }
+
+    // Samlet restanceværdi
+    public double calculateTotalArrears() {
+        double total = 0;
+
+        for (Member member : members) {
+            total += member.getArrears();
+        }
+
+        return total;
+    }
+
+    // Find alle medlemmer, der ikke har betalt
+    public List<Member> getMembersInArrears() {
+        List<Member> membersInArrears = new ArrayList<>();
+
+        for (Member member : members) {
+            if (!member.isPaid()) {
+                membersInArrears.add(member);
+            }
+        }
+
+        return membersInArrears;
+    public void addResult(Result result) {
+        results.add(result);
+    }
+
+    public List<Result> getResults() {
+        return results;
     }
 }

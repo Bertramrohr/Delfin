@@ -1,6 +1,6 @@
+
 import java.time.LocalDate;
 import java.time.Period;
-
 
 public abstract class Member {
     final String name;
@@ -10,6 +10,8 @@ public abstract class Member {
     final String phoneNumber;
     final String email;
     final LocalDate signUpDate;
+    private boolean paid;
+
 
     public Member(String name, int memberID, LocalDate birthday, String adress,
                   String phoneNumber, String email, LocalDate signUpDate) {
@@ -21,25 +23,53 @@ public abstract class Member {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.signUpDate = signUpDate;
+        this.paid = false;
+
     }
-    // Medlemsalder
+
+    // Medlemsalder på en bestemt dato
     public int calculateAge(LocalDate date) {
         return Period.between(getBirthday(), date).getYears();
     }
 
-    //Beregner ud fra dags dato
-    public int calculateAge(){
+    // Medlemsalder ud fra dags dato
+    public int calculateAge() {
         return calculateAge(LocalDate.now());
     }
 
-    // til kontingent beregning
+    // Kontingentberegning
     public abstract double calculateFee(int age);
 
-    //samler alder og kontigentberegning
-    public double calculateFee(){
+    // Beregner kontingent ud fra medlemmets nuværende alder
+    public double calculateFee() {
         return calculateFee(calculateAge());
     }
 
+    /**
+     * Returnerer restancen som et negativt beløb, hvis medlemmet ikke har betalt.
+     * Har medlemmet betalt, returneres 0.0.
+     */
+    public double getArrears(LocalDate date) {
+        if (paid) {
+            return 0.0;
+        }
+
+        return calculateFee(calculateAge(date));
+    }
+
+    // Beregner restance ud fra dags dato
+    public double getArrears() {
+        return getArrears(LocalDate.now());
+    }
+
+    // Betalingsstatus
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 
     // Medlemstype
     public abstract String getMembershipType();
@@ -73,7 +103,8 @@ public abstract class Member {
         return signUpDate;
     }
 
-    //To-String
+    // ToString
+    @Override
     public String toString() {
         return String.format("""
                 Navn: %s
@@ -84,7 +115,9 @@ public abstract class Member {
                 Email: %s
                 Oprettelses Dato: %s
                 Status: %s
-                
-                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, getMembershipType());
+                Betalt: %s
+
+                """, name, memberID, birthday, adress, phoneNumber,
+                email, signUpDate, getMembershipType(), paid);
     }
 }
