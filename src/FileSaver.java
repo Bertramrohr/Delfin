@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -34,4 +35,20 @@ public class FileSaver {
             }
         }
     }
+
+
+    public void createResultsCsv(List<Result> results, String swimmingResults) throws IOException {
+        Path path = Path.of(swimmingResults);
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write("medlemsId,type,time,date,placement,event");
+            writer.newLine();
+            for (Result result : results) {
+                writer.write(result.toCsv());
+                writer.newLine();
+            }
+        }
+    }
+
+
+
 }

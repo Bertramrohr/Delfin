@@ -10,6 +10,8 @@ public abstract class Member {
     final String phoneNumber;
     final String email;
     final LocalDate signUpDate;
+    private boolean paid;
+
 
     public Member(String name, int memberID, LocalDate birthday, String adress,
                   String phoneNumber, String email, LocalDate signUpDate) {
@@ -21,6 +23,8 @@ public abstract class Member {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.signUpDate = signUpDate;
+        this.paid = false;
+
     }
     // Medlemsalder
     public int calculateAge(LocalDate date) {
@@ -40,6 +44,28 @@ public abstract class Member {
         return calculateFee(calculateAge());
     }
 
+    /**
+     * Returnerer restancen som et negativt beløb, hvis medlemmet ikke har betalt.
+     * Har medlemmet betalt, returneres 0.0.
+     */
+    public double getArrears(LocalDate date) {
+        if (paid) {
+            return 0.0;
+        }
+        return -calculateFee();
+    }
+
+    public double getArrears() {
+        return getArrears(LocalDate.now());
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 
     // Medlemstype
     public abstract String getMembershipType();
