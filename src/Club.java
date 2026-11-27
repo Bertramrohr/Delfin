@@ -62,6 +62,59 @@ public class Club {
         return total;
     }
 
+    // Tilføjer et resultat til klubbens resultatliste.
+    public void addResult(Result result) {
+        if (result != null) {
+            results.add(result);
+        }
+    }
+
+    // Finder højst fem svømmere i den valgte aldersgruppe.
+    public List<Result> getTopFive(String disciplineName, boolean junior,
+                                   LocalDate date) {
+        List<Result> bestResults = new ArrayList<>();
+
+        for (Result result : results) {
+            CompetitiveSwimmer swimmer = result.getSwimmer();
+
+            boolean correctDiscipline = result.getDiscipline()
+                    .getName().equalsIgnoreCase(disciplineName);
+
+            boolean swimmerIsJunior = swimmer.calculateAge(date) < 18;
+
+            if (correctDiscipline && swimmerIsJunior == junior) {
+                int existingIndex = -1;
+
+                // Find ud af, om svømmeren allerede er med.
+                for (int i = 0; i < bestResults.size(); i++) {
+                    if (bestResults.get(i).getSwimmer().getMemberID()
+                            == swimmer.getMemberID()) {
+                        existingIndex = i;
+                        break;
+                    }
+                }
+
+                if (existingIndex == -1) {
+                    bestResults.add(result);
+                } else if (result.getTime()
+                        < bestResults.get(existingIndex).getTime()) {
+                    // Behold kun svømmerens hurtigste tid.
+                    bestResults.set(existingIndex, result);
+                }
+            }
+        }
+
+        // Sortér med den hurtigste tid først.
+        bestResults.sort(new ResultTimeComparator());
+
+        List<Result> topFive = new ArrayList<>();
+
+        // Tag højst fem resultater fra den sorterede liste.
+        for (int i = 0; i < bestResults.size() && i < 5; i++) {
+            topFive.add(bestResults.get(i));
+        }
+
+        return topFive;
     // Samlet faktisk indbetalt kontingent
     public double calculateCollectedIncome() {
         double total = 0;
