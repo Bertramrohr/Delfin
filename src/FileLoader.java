@@ -79,9 +79,9 @@ public class FileLoader {
 
         return members;
     }
-    public List<Result> loadResultsByMemberId(String resultsFilePath, int targetMemberId) throws IOException {
+    public List<Result> loadResultsByMemberId(String swimmingResults, int targetMemberId) throws IOException {
         List<Result> memberResults = new ArrayList<>();
-        Path path = Path.of(resultsFilePath);
+        Path path = Path.of(swimmingResults);
 
         if (!Files.exists(path)) {
             return memberResults;
@@ -122,9 +122,9 @@ public class FileLoader {
                     if ("COMPETITION".equals(type) && fields.length >= 7) {
                         int placement = Integer.parseInt(fields[5].trim());
                         String competitionName = fields[6].trim();
-                        memberResults.add(new CompetitionResult(time, date, discipline, placement, competitionName));
+                        memberResults.add(new CompetitionResult(memberId ,time, date, discipline, placement, competitionName));
                     } else {
-                        memberResults.add(new TrainingResult(time, date, discipline));
+                        memberResults.add(new TrainingResult(memberId,time, date, discipline));
                     }
 
                 } catch (NumberFormatException | java.time.DateTimeException e) {
