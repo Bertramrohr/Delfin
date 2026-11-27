@@ -21,6 +21,7 @@ public abstract class Result {
 
 
 
+
     public LocalDate getDate() {
         return date;
     }
