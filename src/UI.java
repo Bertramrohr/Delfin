@@ -202,52 +202,6 @@ public class UI {
             }
         }
     }
-    private void showTopFive() {
-        IO.println("\n--- Top 5 pr. disciplin ---");
-        IO.println("1. Crawl");
-        IO.println("2. Butterfly");
-        IO.println("3. Rygcrawl");
-        IO.println("4. Brystsvømning");
-
-        int choice = readInt("Vælg disciplin: ");
-        String disciplineName;
-
-        switch (choice) {
-            case 1 -> disciplineName = "Crawl";
-            case 2 -> disciplineName = "Butterfly";
-            case 3 -> disciplineName = "Rygcrawl";
-            case 4 -> disciplineName = "Brystsvømning";
-            default -> {
-                IO.println("Ugyldigt valg.");
-                return;
-            }
-        }
-
-        LocalDate date = LocalDate.now();
-
-        printTopFive("Junior – " + disciplineName,
-                club.getTopFive(disciplineName, true, date));
-
-        printTopFive("Senior – " + disciplineName,
-                club.getTopFive(disciplineName, false, date));
-    }
-
-    private void printTopFive(String heading, List<Result> results) {
-        IO.println("\n" + heading);
-
-        if (results.isEmpty()) {
-            IO.println("Ingen registrerede resultater.");
-            return;
-        }
-
-        for (int i = 0; i < results.size(); i++) {
-            Result result = results.get(i);
-
-            IO.println((i + 1) + ". "
-                    + result.getSwimmer().getName()
-                    + " – " + result.getTime() + " sek.");
-        }
-    }
 
 
     // VIS ALLE MEDLEMMERS INFORMATION
