@@ -383,7 +383,6 @@ public class UI {
 
         // Behold den eksisterende betalingsstatus
         newMembershipInfo.setPaid(oldMemberInfo.isPaid());
-
         int index = club.getMembers().indexOf(oldMemberInfo);
 
         club.getMembers().set(index, newMembershipInfo);
