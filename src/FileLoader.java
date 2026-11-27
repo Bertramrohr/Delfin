@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileLoader {
@@ -150,22 +151,17 @@ public class FileLoader {
                 Discipline discipline = new Discipline(disciplineName);
 
                 if (type.equals("TRAINING")) {
-
                     results.add(new TrainingResult(
-                            memberId, time, date, discipline
-                    ));
+                            memberId, time, date, discipline));
+                }
 
-                } else if (type.equals("COMPETITION")) {
-
-                    int placement =
-                            Integer.parseInt(fields[5].trim());
-
+                else if (type.equals("COMPETITION")) {
+                    int placement = Integer.parseInt(fields[5].trim());
                     String competitionName = fields[6].trim();
 
                     results.add(new CompetitionResult(
                             memberId, time, date, discipline,
-                            placement, competitionName
-                    ));
+                            placement, competitionName));
                 }
             }
         }

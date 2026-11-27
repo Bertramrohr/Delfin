@@ -9,8 +9,6 @@ public class ActiveMember extends Member {
         super(name, memberID, birthday, address, phoneNumber, email, signUpDate);
     }
 
-
-    @Override
     public double calculateFee(int age) {
 
         if (age < 18) {
@@ -22,7 +20,6 @@ public class ActiveMember extends Member {
         }
     }
 
-    @Override
     public String getMembershipType() {
         return "ACTIVE";
     }

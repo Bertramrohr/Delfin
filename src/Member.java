@@ -12,6 +12,7 @@ public abstract class Member {
     final LocalDate signUpDate;
     private boolean paid;
 
+
     public Member(String name, int memberID, LocalDate birthday, String adress,
                   String phoneNumber, String email, LocalDate signUpDate) {
 
@@ -23,6 +24,7 @@ public abstract class Member {
         this.email = email;
         this.signUpDate = signUpDate;
         this.paid = false;
+
     }
 
     // Medlemsalder på en bestemt dato
@@ -43,7 +45,10 @@ public abstract class Member {
         return calculateFee(calculateAge());
     }
 
-    // Beregner restance på en bestemt dato
+    /**
+     * Returnerer restancen som et negativt beløb, hvis medlemmet ikke har betalt.
+     * Har medlemmet betalt, returneres 0.0.
+     */
     public double getArrears(LocalDate date) {
         if (paid) {
             return 0.0;
