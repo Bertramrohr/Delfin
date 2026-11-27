@@ -41,8 +41,8 @@ public class Club {
         return null;
     }
 
+    // Samlet forventet årlig indkomst fra alle medlemmer
     public double calculateTotalFee() {
-
         double total = 0;
 
         for (Member member : members) {
@@ -50,5 +50,42 @@ public class Club {
         }
 
         return total;
+    }
+
+    // Samlet faktisk indbetalt kontingent
+    public double calculateCollectedIncome() {
+        double total = 0;
+
+        for (Member member : members) {
+            if (member.isPaid()) {
+                total += member.calculateFee();
+            }
+        }
+
+        return total;
+    }
+
+    // Samlet restanceværdi
+    public double calculateTotalArrears() {
+        double total = 0;
+
+        for (Member member : members) {
+            total += member.getArrears();
+        }
+
+        return total;
+    }
+
+    // Find alle medlemmer, der ikke har betalt
+    public List<Member> getMembersInArrears() {
+        List<Member> membersInArrears = new ArrayList<>();
+
+        for (Member member : members) {
+            if (!member.isPaid()) {
+                membersInArrears.add(member);
+            }
+        }
+
+        return membersInArrears;
     }
 }
