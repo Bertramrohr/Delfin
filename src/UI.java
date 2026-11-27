@@ -129,7 +129,7 @@ public class UI {
             switch (choice) {
                 case 1 -> information();
                 case 2 -> allMemberInfo(); // Genbruger evt. til kontaktinfo
-                case 3 -> results();
+                case 3 -> seeAllResults();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
@@ -137,26 +137,29 @@ public class UI {
     }
 
     // KUNDE / MEDLEMSMENU
-    private void trainerMenu() {
+    private void trainerMenu() throws IOException {
 
         boolean running = true;
         while (running) {
             IO.println("Menu for træner");
             IO.println("1. Søg i medlemmer (via medlemsnummer)");
             IO.println("2. Søg i hold");
-            IO.println("3. Søg i resultater");
+            IO.println("3. Opret resultater");
+            IO.println("4. Se alle resultater");
             IO.println("0. Tilbage");
 
             int choice = readInt("Vælg et nummer: ");
             switch (choice) {
                 case 1 -> searchMemberById();
                 case 2 -> information();
-                case 3 -> results();
+                case 3 -> createResults();
+                case 4 -> seeAllResults();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg.");
             }
         }
     }
+
 
     // VIS ALLE MEDLEMMERS INFORMATION
     private void allMemberInfo() throws IOException {
@@ -227,7 +230,7 @@ public class UI {
                 }
                 member = swimmer;
             }
-            case 4 ->{
+            case 4 -> {
                 member = new Exerciser(
                         name,
                         id,
@@ -237,7 +240,6 @@ public class UI {
                         email,
                         signUpDate);
             }
-
 
 
             default -> {
@@ -327,9 +329,89 @@ public class UI {
     }
 
     // VIS RESULTATER
-    private void results() {
-        // Her kan man vælge stævner eller træningsresultater.
+    private void seeAllResults() throws IOException {
+        FileLoader loader = new FileLoader();
+        List<Result> loadResults = loader.loadResults("swimmingResults.csv");
+        for (Result result : loadResults) {
+            IO.println("\n Medlems ID: " + result.getMemberId() + "\n" + "Disciplin: " + result.getDiscipline() + "\n" + "Tid: " + result.getTime() + "\n");
+        }
     }
+
+
+    private void createResults() throws IOException {
+
+        IO.println("Opret resultater for svømmeren");
+        IO.println("1. Opret træningsresultat");
+        IO.println("2. Opret konkurrenceresultat");
+
+        int resultChoice = readInt("Vælg resultattypen: ");
+
+        // Find svømmeren
+        int id = readInt("Indtast svømmerens medlemsnummer: ");
+
+
+        Member member = club.findMemberById(id);
+
+        IO.println("Medlemmet hvis tid du opretter: " + member.getName());
+
+        if (member == null) {
+            IO.println("Medlemmet findes ikke.");
+            return;
+        }
+
+        // Fælles oplysninger
+        String disciplineName = IO.readln("Indtast disciplinen: ");
+        Discipline discipline = new Discipline(disciplineName);
+
+        double resultTime = Double.parseDouble(
+                IO.readln("Indtast tiden i sekunder: ")
+        );
+
+        LocalDate resultDate = readDate(
+                "Indtast datoen (yyyy-mm-dd): "
+        );
+
+        Result result = null;
+
+        switch (resultChoice) {
+
+            case 1 -> {
+                result = new TrainingResult(
+                        id,
+                        resultTime,
+                        resultDate,
+                        discipline
+                );
+            }
+
+            case 2 -> {
+                int placement = readInt("Indtast placering: ");
+                String event = IO.readln("Indtast stævnet: ");
+
+                result = new CompetitionResult(
+                        id,
+                        resultTime,
+                        resultDate,
+                        discipline,
+                        placement,
+                        event
+                );
+            }
+
+            default -> {
+                IO.println("Ugyldigt valg.");
+                return;
+            }
+        }
+
+        club.addResult(result);
+
+        FileSaver saver = new FileSaver();
+        saver.createResultsCsv(club.getResults(), "swimmingResults.csv");
+
+        IO.println("Resultatet for " + member.getName() + " er oprettet!");
+    }
+
 
     // VIS EGET MEDLEMSKAB OG INFORMATION
     private void membership() {

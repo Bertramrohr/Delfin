@@ -138,4 +138,46 @@ public class FileLoader {
         return memberResults;
     }
 
+
+
+    public List<Result> loadResults(String swimmingResults) throws IOException {
+        List<Result> results = new ArrayList<>();
+
+        Path path = Path.of(swimmingResults);
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+
+            // Spring CSV-headeren over
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",", -1);
+
+                int memberId = Integer.parseInt(fields[0].trim());
+                String type = fields[1].trim();
+                double time = Double.parseDouble(fields[2].trim());
+                LocalDate date = LocalDate.parse(fields[3].trim());
+                String disciplineName = fields[4].trim();
+
+                Discipline discipline = new Discipline(disciplineName);
+
+                if (type.equals("TRAINING")) {
+                    results.add(new TrainingResult(
+                            memberId, time, date, discipline));
+                }
+
+                else if (type.equals("COMPETITION")) {
+                    int placement = Integer.parseInt(fields[5].trim());
+                    String competitionName = fields[6].trim();
+
+                    results.add(new CompetitionResult(
+                            memberId, time, date, discipline,
+                            placement, competitionName));
+                }
+            }
+        }
+
+        return results;
+    }
 }

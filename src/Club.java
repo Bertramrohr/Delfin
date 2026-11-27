@@ -18,7 +18,16 @@ public class Club {
         } catch (IOException e) {
             IO.println("Kunne ikke indlæse medlemmer: " + e.getMessage());
         }
+
+        results = new ArrayList<>();
+
+        try {
+            results = fileLoader.loadResults("swimmingResults.csv");
+        } catch (IOException e) {
+            IO.println("Kunne ikke indlæse resultater: " + e.getMessage());
+        }
     }
+
 
     public List<Member> getMembers() {
         return members;
@@ -29,6 +38,7 @@ public class Club {
             members.add(member);
         }
     }
+
 
     public Member findMemberById(int id) {
 
@@ -50,5 +60,13 @@ public class Club {
         }
 
         return total;
+    }
+
+    public void addResult(Result result) {
+        results.add(result);
+    }
+
+    public List<Result> getResults() {
+        return results;
     }
 }
