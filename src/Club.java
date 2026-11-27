@@ -150,6 +150,8 @@ public class Club {
         }
 
         return membersInArrears;
+    }
+
     public void addResult(Result result) {
         results.add(result);
     }

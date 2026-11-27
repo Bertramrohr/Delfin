@@ -429,7 +429,6 @@ public class UI {
 
         // Behold den eksisterende betalingsstatus
         newMembershipInfo.setPaid(oldMemberInfo.isPaid());
-
         int index = club.getMembers().indexOf(oldMemberInfo);
 
         club.getMembers().set(index, newMembershipInfo);
@@ -542,86 +541,10 @@ public class UI {
                 + member.getName() + " er oprettet!");
         FileLoader loader = new FileLoader();
         List<Result> loadResults = loader.loadResults("swimmingResults.csv");
-        for (Result result : loadResults) {
-            IO.println("\n Medlems ID: " + result.getMemberId() + "\n" + "Disciplin: " + result.getDiscipline() + "\n" + "Tid: " + result.getTime() + "\n");
+        for (Result results : loadResults) {
+            IO.println("\n Medlems ID: " + results.getMemberId() + "\n" + "Disciplin: " + results.getDiscipline() + "\n" + "Tid: " + result.getTime() + "\n");
         }
     }
-
-
-    private void createResults() throws IOException {
-
-        IO.println("Opret resultater for svømmeren");
-        IO.println("1. Opret træningsresultat");
-        IO.println("2. Opret konkurrenceresultat");
-
-        int resultChoice = readInt("Vælg resultattypen: ");
-
-        // Find svømmeren
-        int id = readInt("Indtast svømmerens medlemsnummer: ");
-
-
-        Member member = club.findMemberById(id);
-
-        IO.println("Medlemmet hvis tid du opretter: " + member.getName());
-
-        if (member == null) {
-            IO.println("Medlemmet findes ikke.");
-            return;
-        }
-
-        // Fælles oplysninger
-        String disciplineName = IO.readln("Indtast disciplinen: ");
-        Discipline discipline = new Discipline(disciplineName);
-
-        double resultTime = Double.parseDouble(
-                IO.readln("Indtast tiden i sekunder: ")
-        );
-
-        LocalDate resultDate = readDate(
-                "Indtast datoen (yyyy-mm-dd): "
-        );
-
-        Result result = null;
-
-        switch (resultChoice) {
-
-            case 1 -> {
-                result = new TrainingResult(
-                        id,
-                        resultTime,
-                        resultDate,
-                        discipline
-                );
-            }
-
-            case 2 -> {
-                int placement = readInt("Indtast placering: ");
-                String event = IO.readln("Indtast stævnet: ");
-
-                result = new CompetitionResult(
-                        id,
-                        resultTime,
-                        resultDate,
-                        discipline,
-                        placement,
-                        event
-                );
-            }
-
-            default -> {
-                IO.println("Ugyldigt valg.");
-                return;
-            }
-        }
-
-        club.addResult(result);
-
-        FileSaver saver = new FileSaver();
-        saver.createResultsCsv(club.getResults(), "swimmingResults.csv");
-
-        IO.println("Resultatet for " + member.getName() + " er oprettet!");
-    }
-
 
     // VIS EGET MEDLEMSKAB OG INFORMATION
     private void membership() {
