@@ -1,6 +1,6 @@
+
 import java.time.LocalDate;
 import java.time.Period;
-
 
 public abstract class Member {
     final String name;
@@ -26,21 +26,22 @@ public abstract class Member {
         this.paid = false;
 
     }
-    // Medlemsalder
+
+    // Medlemsalder på en bestemt dato
     public int calculateAge(LocalDate date) {
         return Period.between(getBirthday(), date).getYears();
     }
 
-    //Beregner ud fra dags dato
-    public int calculateAge(){
+    // Medlemsalder ud fra dags dato
+    public int calculateAge() {
         return calculateAge(LocalDate.now());
     }
 
-    // til kontingent beregning
+    // Kontingentberegning
     public abstract double calculateFee(int age);
 
-    //samler alder og kontigentberegning
-    public double calculateFee(){
+    // Beregner kontingent ud fra medlemmets nuværende alder
+    public double calculateFee() {
         return calculateFee(calculateAge());
     }
 
@@ -52,13 +53,16 @@ public abstract class Member {
         if (paid) {
             return 0.0;
         }
-        return -calculateFee();
+
+        return calculateFee(calculateAge(date));
     }
 
+    // Beregner restance ud fra dags dato
     public double getArrears() {
         return getArrears(LocalDate.now());
     }
 
+    // Betalingsstatus
     public boolean isPaid() {
         return paid;
     }
@@ -99,7 +103,8 @@ public abstract class Member {
         return signUpDate;
     }
 
-    //To-String
+    // ToString
+    @Override
     public String toString() {
         return String.format("""
                 Navn: %s
@@ -110,7 +115,9 @@ public abstract class Member {
                 Email: %s
                 Oprettelses Dato: %s
                 Status: %s
-                
-                """, name, memberID, birthday, adress, phoneNumber, email, signUpDate, getMembershipType());
+                Betalt: %s
+
+                """, name, memberID, birthday, adress, phoneNumber,
+                email, signUpDate, getMembershipType(), paid);
     }
 }
