@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileLoader {
@@ -78,6 +79,65 @@ public class FileLoader {
 
         return members;
     }
+    public List<Result> loadResultsByMemberId(String resultsFilePath, int targetMemberId) throws IOException {
+        List<Result> memberResults = new ArrayList<>();
+        Path path = Path.of(resultsFilePath);
+
+        if (!Files.exists(path)) {
+            return memberResults;
+        }
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            int lineNumber = 0;
+
+            while ((line = reader.readLine()) != null) {
+                lineNumber++;
+                if (line.isBlank()) {
+                    continue;
+                }
+
+                // Spring evt. header-linje over, hvis filen har en
+                if (lineNumber == 1 && line.toLowerCase().contains("memberid")) {
+                    continue;
+                }
+
+                String[] fields = line.split(";", -1);
+                if (fields.length < 5) {
+                    IO.println("Ugyldigt antal felter i results på linje " + lineNumber);
+                    continue;
+                }
+
+                try {
+                    int memberId = Integer.parseInt(fields[0].trim());
+                    if (memberId != targetMemberId) {
+                        continue;
+                    }
+
+                    String type = fields[1].trim().toUpperCase(); // "TRAINING" eller "COMPETITION"
+                    Discipline discipline = new Discipline(fields[2].trim());
+                    double time = Double.parseDouble(fields[3].trim().replace(",", "."));
+                    LocalDate date = LocalDate.parse(fields[4].trim());
+
+                    if ("COMPETITION".equals(type) && fields.length >= 7) {
+                        int placement = Integer.parseInt(fields[5].trim());
+                        String competitionName = fields[6].trim();
+                        memberResults.add(new CompetitionResult(time, date, discipline, placement, competitionName));
+                    } else {
+                        memberResults.add(new TrainingResult(time, date, discipline));
+                    }
+
+                } catch (NumberFormatException | java.time.DateTimeException e) {
+                    IO.println("Ugyldige resultatdata på linje " + lineNumber + ". Linjen springes over.");
+                }
+            }
+        }
+
+        // Valgfrit: sortér efter hurtigste tid (laveste double først)
+        memberResults.sort(Comparator.comparingDouble(Result::getTime));
+        return memberResults;
+    }
+
 
 
     public List<Result> loadResults(String swimmingResults) throws IOException {
